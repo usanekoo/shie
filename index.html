@@ -111,6 +111,29 @@
         cells.forEach((cell, index) => {
             cell.addEventListener('click', () => handleCellClick(cell, index));
         });
+            <title>Game Board</title>
+    <script>
+        function resetGame() {
+            // Clear the game board
+            const squares = document.querySelectorAll('.square');
+            squares.forEach(square => square.textContent = '');
+            // Optional: Reset other game state variables here
+        }
+    </script>
+</head>
+<body>
+    <div id="game-board">
+        <div class="square"></div>
+        <div class="square"></div>
+        <div class="square"></div>
+        <div class="square"></div>
+        <div class="square"></div>
+        <div class="square"></div>
+        <div class="square"></div>
+        <div class="square"></div>
+        <div class="square"></div>
+    </div>
+    <button onclick="resetGame()">Reset Game</button>
     </script>
 </body>
 </html>
