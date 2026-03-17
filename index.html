@@ -22,6 +22,7 @@
             grid-template-columns: repeat(3, 100px);
             grid-template-rows: repeat(3, 100px);
             gap: 5px;
+            margin-bottom: 20px;
         }
         .cell {
             width: 100px;
@@ -30,21 +31,43 @@
             align-items: center;
             justify-content: center;
             font-size: 36px;
+            font-weight: bold;
             background-color: white;
             border: 2px solid #333;
             cursor: pointer;
+            transition: background-color 0.2s;
         }
         .cell:hover {
             background-color: #eaeaea;
         }
         .status {
-            margin-top: 20px;
             font-size: 24px;
+            margin-bottom: 20px;
+            min-height: 30px;
+            color: #333;
+        }
+        .button-container {
+            display: flex;
+            gap: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #45a049;
         }
     </style>
 </head>
 <body>
     <h1>Tic Tac Toe</h1>
+    <div class="status" id="status">Player X's turn</div>
     <div class="board" id="board">
         <div class="cell" data-cell></div>
         <div class="cell" data-cell></div>
@@ -56,7 +79,10 @@
         <div class="cell" data-cell></div>
         <div class="cell" data-cell></div>
     </div>
-    <div class="status" id="status"></div>
+    <div class="button-container">
+        <button onclick="resetGame()">リセット</button>
+    </div>
+
     <script>
         const cells = document.querySelectorAll('[data-cell]');
         const statusDisplay = document.getElementById('status');
@@ -82,7 +108,10 @@
             board[clickedCellIndex] = currentPlayer;
             clickedCell.innerText = currentPlayer;
             checkResult();
-            currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+            if (gameIsActive) {
+                currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+                statusDisplay.innerText = `Player ${currentPlayer}'s turn`;
+            }
         }
 
         function checkResult() {
@@ -98,42 +127,32 @@
                 }
             }
             if (roundWon) {
-                statusDisplay.innerText = `Player ${currentPlayer} has won!`;
+                statusDisplay.innerText = `🎉 Player ${currentPlayer} has won!`;
                 gameIsActive = false;
                 return;
             }
             if (!board.includes('')) {
-                statusDisplay.innerText = 'Game ended in a draw!';
+                statusDisplay.innerText = 'Draw! Game ended in a tie! 🤝';
                 gameIsActive = false;
             }
+        }
+
+        function resetGame() {
+            // ボードをリセット
+            board = ['', '', '', '', '', '', '', '', ''];
+            currentPlayer = 'X';
+            gameIsActive = true;
+            statusDisplay.innerText = `Player X's turn`;
+            
+            // セルをクリア
+            cells.forEach(cell => {
+                cell.innerText = '';
+            });
         }
 
         cells.forEach((cell, index) => {
             cell.addEventListener('click', () => handleCellClick(cell, index));
         });
-            <title>Game Board</title>
-    <script>
-        function resetGame() {
-            // Clear the game board
-            const squares = document.querySelectorAll('.square');
-            squares.forEach(square => square.textContent = '');
-            // Optional: Reset other game state variables here
-        }
-    </script>
-</head>
-<body>
-    <div id="game-board">
-        <div class="square"></div>
-        <div class="square"></div>
-        <div class="square"></div>
-        <div class="square"></div>
-        <div class="square"></div>
-        <div class="square"></div>
-        <div class="square"></div>
-        <div class="square"></div>
-        <div class="square"></div>
-    </div>
-    <button onclick="resetGame()">Reset Game</button>
     </script>
 </body>
 </html>
