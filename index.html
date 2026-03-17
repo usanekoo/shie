@@ -1,1 +1,44 @@
 こんにちは
+board = [" " for _ in range(9)]
+
+def print_board():
+    print(f"{board[0]}|{board[1]}|{board[2]}")
+    print("-+-+-")
+    print(f"{board[3]}|{board[4]}|{board[5]}")
+    print("-+-+-")
+    print(f"{board[6]}|{board[7]}|{board[8]}")
+
+def check_winner(p):
+    win_patterns = [
+        [0,1,2],[3,4,5],[6,7,8],
+        [0,3,6],[1,4,7],[2,5,8],
+        [0,4,8],[2,4,6]
+    ]
+    for pattern in win_patterns:
+        if all(board[i] == p for i in pattern):
+            return True
+    return False
+
+def play():
+    player = "X"
+    for turn in range(9):
+        print_board()
+        move = int(input(f"{player} の番 (0-8): "))
+        
+        if board[move] != " ":
+            print("そこは使えない！")
+            continue
+        
+        board[move] = player
+        
+        if check_winner(player):
+            print_board()
+            print(f"{player} の勝ち！")
+            return
+        
+        player = "O" if player == "X" else "X"
+    
+    print_board()
+    print("引き分け！")
+
+play()
